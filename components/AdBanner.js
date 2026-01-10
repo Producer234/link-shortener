@@ -1,35 +1,24 @@
 "use client"
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
-export default function AdBanner() {
-  const banner = useRef(null)
-
+export default function AdContainer() {
   useEffect(() => {
-    // Only load if not already loaded
-    if (banner.current && !banner.current.firstChild) {
-      const conf = document.createElement('script')
-      const script = document.createElement('script')
-      conf.type = 'text/javascript'
-      conf.innerText = `
-        atOptions = {
-          'key' : 'e74a2fdafcd74e6ed493882d945670da',
-          'format' : 'iframe',
-          'height' : 85,
-          'width' : 700,
-          'params' : {}
-        };
-      `
-      script.type = 'text/javascript'
-      script.src = "https://www.highperformanceformat.com/e74a2fdafcd74e6ed493882d945670da/invoke.js"
-
-      banner.current.append(conf)
-      banner.current.append(script)
+    // This function ensures the script is added only once
+    const scriptId = 'ad-script-invoke';
+    if (!document.getElementById(scriptId)) {
+      const script = document.createElement('script');
+      script.id = scriptId;
+      script.src = 'https://pl28442658.effectivegatecpm.com/200e7db1314bb95050699eab0b196d0e/invoke.js';
+      script.async = true;
+      script.setAttribute('data-cfasync', 'false');
+      document.body.appendChild(script);
     }
-  }, [])
+  }, []);
 
   return (
-    <div className="flex justify-center my-6 min-h-[95px] w-full overflow-hidden bg-gray-50 border border-gray-100 rounded">
-      <div ref={banner}></div>
+    <div className="flex justify-center my-6">
+      {/* This ID MUST match exactly what the ad network gave you */}
+      <div id="container-200e7db1314bb95050699eab0b196d0e"></div>
     </div>
   )
 }
