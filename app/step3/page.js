@@ -1,9 +1,11 @@
 "use client"
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 
-export default function Step3() {
-  const d = useSearchParams().get('d')
-  const finalLink = typeof window !== 'undefined' ? atob(d) : '#'
+function Step3Content() {
+  const searchParams = useSearchParams()
+  const d = searchParams.get('d')
+  const finalLink = typeof window !== 'undefined' && d ? atob(d) : '#'
 
   return (
     <div className="max-w-2xl mx-auto text-center">
@@ -22,4 +24,12 @@ export default function Step3() {
       </div>
     </div>
   )
-    }
+}
+
+export default function Step3() {
+  return (
+    <Suspense fallback={<div className="text-center p-10 font-bold">Finalizing...</div>}>
+      <Step3Content />
+    </Suspense>
+  )
+}
