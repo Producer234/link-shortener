@@ -1,14 +1,18 @@
 "use client"
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
-export default function Step2() {
+function Step2Content() {
   const [count, setCount] = useState(8)
   const router = useRouter()
-  const d = useSearchParams().get('d')
+  const searchParams = useSearchParams()
+  const d = searchParams.get('d')
 
   useEffect(() => {
-    if (count > 0) setTimeout(() => setCount(count - 1), 1000)
+    if (count > 0) {
+      const timer = setTimeout(() => setCount(count - 1), 1000)
+      return () => clearTimeout(timer)
+    }
   }, [count])
 
   return (
@@ -31,4 +35,12 @@ export default function Step2() {
       </div>
     </div>
   )
-    }
+}
+
+export default function Step2() {
+  return (
+    <Suspense fallback={<div className="text-center p-10 font-bold">Preparing link...</div>}>
+      <Step2Content />
+    </Suspense>
+  )
+}
