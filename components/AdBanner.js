@@ -14,8 +14,8 @@ export default function AdBanner() {
         atOptions = {
           'key' : 'e74a2fdafcd74e6ed493882d945670da',
           'format' : 'iframe',
-          'height' : 728,
-          'width' : 90,
+          'height' : 85,
+          'width' : 700,
           'params' : {}
         };
       `
