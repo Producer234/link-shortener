@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-/* Custom styles for animations and smooth UI */
 @layer utilities {
   .animate-fade-in {
     animation: fadeIn 0.5s ease-in-out;
