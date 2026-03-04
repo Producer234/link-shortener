@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" // Change to "postgresql" when deploying to Vercel/Netlify
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String       @id @default(cuid())
+  name           String
+  email          String       @unique
+  password       String
+  balance        Float        @default(0.00)
+  trafficSource  String?      @default("Not Specified")
+  withdrawMethod String?
+  withdrawAccount String?
+  role           String       @default("USER")
+  links          Link[]
+  withdrawals    Withdrawal[]
+  createdAt      DateTime     @default(now())
+}
+
+model Link {
+  id          String   @id @default(cuid())
+  originalUrl String
+  shortCode   String   @unique
+  clicks      Int      @default(0)
+  earnings    Float    @default(0.00)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Withdrawal {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  amount         Float
+  method         String
+  accountDetails String
+  status         String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  createdAt      DateTime @default(now())
+}
